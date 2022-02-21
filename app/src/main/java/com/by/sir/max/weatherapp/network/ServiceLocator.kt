@@ -1,0 +1,18 @@
+package com.by.sir.max.weatherapp.network
+
+import kotlin.reflect.KClass
+
+object ServiceLocator {
+    fun <T> service(service: KClass<*>): T {
+        return when (service) {
+            WeatherService::class -> {
+                WeatherAPiService.retrofit.create(service.java) as T
+            }
+            else -> {
+                throw NotImplementedError("There isn't such Implementation")
+            }
+        }
+    }
+}
+
+inline fun <reified T> service(): T = ServiceLocator.service(T::class)
