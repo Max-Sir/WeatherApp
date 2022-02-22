@@ -18,7 +18,7 @@ class MainViewModel : ViewModel() {
     val text by lazyOf(MutableLiveData<String>())
     val weatherState by lazyOf(MutableLiveData<Weather>())
 
-    fun getWeather(city: String = "Bengaluru") {
+    fun getWeather(city: String = "NY") {
         viewModelScope.launch {
             service<WeatherService>().getWeatherByCity(city).enqueue(object : Callback<Weather> {
                 override fun onResponse(call: Call<Weather>, response: Response<Weather>) {

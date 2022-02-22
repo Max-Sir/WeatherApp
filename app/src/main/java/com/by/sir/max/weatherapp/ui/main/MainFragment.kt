@@ -24,7 +24,7 @@ class MainFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
         viewModel = MainViewModel()
-        viewModel.getWord("GooD")
+//        viewModel.getWord("GooD")
         //TODO( call a viewModel.getWeather() somewhere)
         viewModel.text.observe(viewLifecycleOwner) {
             binding.responseText.text = it
