@@ -1,14 +1,13 @@
-package com.by.sir.max.weatherapp.network
+package com.by.sir.max.weatherapp.network.dictionary
 
-import com.google.gson.Gson
+import com.by.sir.max.weatherapp.BuildConfig
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object WeatherAPiService {
-    const val BASE_URL = "https://api.ambeedata.com/"
+object DictionaryApiService {
 
     val interceptor by lazy {
         HttpLoggingInterceptor().apply {
@@ -27,7 +26,7 @@ object WeatherAPiService {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_DICT_URL)
             .build()
     }
 }

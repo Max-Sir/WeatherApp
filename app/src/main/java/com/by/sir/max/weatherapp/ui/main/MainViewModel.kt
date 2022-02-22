@@ -3,9 +3,11 @@ package com.by.sir.max.weatherapp.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.by.sir.max.weatherapp.network.WeatherService
-import com.by.sir.max.weatherapp.network.entity.Weather
+import com.by.sir.max.weatherapp.network.dictionary.DictionaryService
+import com.by.sir.max.weatherapp.network.dictionary.entity.DictionaryDto
 import com.by.sir.max.weatherapp.network.service
+import com.by.sir.max.weatherapp.network.weather.WeatherService
+import com.by.sir.max.weatherapp.network.weather.entity.Weather
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +33,27 @@ class MainViewModel : ViewModel() {
                     text.postValue(t.message ?: "Error while loading data from the server")
                 }
             })
+        }
+    }
+
+    fun getWord(word: String) {
+        viewModelScope.launch {
+            Timber.plant(Timber.DebugTree())
+            service<DictionaryService>().getWord(word).enqueue(
+                object : Callback<DictionaryDto> {
+                    override fun onResponse(
+                        call: Call<DictionaryDto>,
+                        response: Response<DictionaryDto>
+                    ) {
+                        Timber.i(response.message())
+                        text.postValue(response.body().toString())
+                    }
+
+                    override fun onFailure(call: Call<DictionaryDto>, t: Throwable) {
+                        Timber.i(t)
+                    }
+                }
+            )
         }
     }
 }
