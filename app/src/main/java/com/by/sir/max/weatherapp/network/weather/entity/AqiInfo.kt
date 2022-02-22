@@ -1,4 +1,4 @@
-package com.by.sir.max.weatherapp.network.entity
+package com.by.sir.max.weatherapp.network.weather.entity
 
 
 import com.google.gson.annotations.SerializedName

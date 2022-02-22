@@ -1,7 +1,7 @@
-package com.by.sir.max.weatherapp.network
+package com.by.sir.max.weatherapp.network.weather
 
 import com.by.sir.max.weatherapp.BuildConfig
-import com.by.sir.max.weatherapp.network.entity.Weather
+import com.by.sir.max.weatherapp.network.weather.entity.Weather
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -17,6 +17,6 @@ interface WeatherService {
     @GET(value = "/latest/by-city")
     fun getWeatherByCity(
         @Query(value = "city")
-        city:String
+        city: String
     ): Call<Weather>
 }

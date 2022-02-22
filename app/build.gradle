@@ -18,6 +18,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "ACCESS_TOKEN", getApiKey()
+        buildConfigField "String", "BASE_DICT_URL", getBaseDictUrl()
+        buildConfigField "String", "BASE_WEATHER_URL", getBaseWeatherUrl()
     }
 
     buildTypes {
@@ -79,4 +81,18 @@ def getApiKey() {
     keysProperties.load(new FileInputStream(keysFile))
     def weatherApiKey = keysProperties['API_KEY']
     return weatherApiKey
+}
+
+def getBaseDictUrl() {
+    def keysFile = rootProject.file("keys.properties")
+    def keysProperties = new Properties()
+    keysProperties.load(new FileInputStream(keysFile))
+    return keysProperties['BASE_DICT_URL']
+}
+
+def getBaseWeatherUrl() {
+    def keysFile = rootProject.file("keys.properties")
+    def keysProperties = new Properties()
+    keysProperties.load(new FileInputStream(keysFile))
+    return keysProperties['BASE_WEATHER_URL']
 }
