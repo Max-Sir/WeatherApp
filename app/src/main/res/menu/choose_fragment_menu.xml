@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_chooser_main_item"
+        android:title="@string/main_screen" />
+    <item
+        android:id="@+id/menu_chooser_custom_item"
+        android:title="@string/custom_view_fragment" />
+    <item
+        android:id="@+id/menu_chooser_camera_item"
+        android:title="@string/camera_fragment" />
+</menu>
