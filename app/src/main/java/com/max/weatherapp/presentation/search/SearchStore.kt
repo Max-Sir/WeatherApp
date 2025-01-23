@@ -12,6 +12,7 @@ import com.max.weatherapp.presentation.search.SearchStore.Intent
 import com.max.weatherapp.presentation.search.SearchStore.Label
 import com.max.weatherapp.presentation.search.SearchStore.State
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -94,15 +95,32 @@ class SearchStoreFactory @Inject constructor(
     }
 
     private inner class ExecutorImpl(private val openReason: OpenReason) :
-        CoroutineExecutor<Intent, Action, State,
-                Msg, Label>() {
+        CoroutineExecutor<Intent, Action, State, Msg, Label>() {
 
         private var searchJob: Job? = null
+        private var debounceJob: Job? = null
 
         override fun executeIntent(intent: Intent, getState: () -> State) {
             when (intent) {
                 is Intent.ChangeSearchQuery -> {
+                    debounceJob?.cancel()
                     dispatch(Msg.ChangeSearchQuery(intent.query))
+
+                    debounceJob = scope.launch {
+                        delay(1000L)
+                        if (intent.query.isNotBlank()) {
+                            searchJob?.cancel()
+                            searchJob = launch {
+                                dispatch(Msg.LoadingSearchResult)
+                                try {
+                                    val cities = searchCityUseCase(intent.query)
+                                    dispatch(Msg.SearchResultLoaded(cities))
+                                } catch (e: Exception) {
+                                    dispatch(Msg.SearchResultError)
+                                }
+                            }
+                        }
+                    }
                 }
 
                 Intent.ClickBack -> {
